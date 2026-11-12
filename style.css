@@ -1,0 +1,630 @@
+/*
+  Deck tokens. SectionProgress reads these too.
+  Cover type stays on the theme font. Content slides use --font-body.
+*/
+:root {
+  --color-ink: #172f3b;
+  --color-accent: #087f64;
+  --color-accent-soft: #80aaa0;
+  --color-muted: #40564d;
+  --color-faint: #728078;
+  --color-quiet: #64756e;
+  --color-label: #718078;
+  --color-canvas: #f7f8f5;
+  --color-paper: #ffffff;
+  --color-card: #f4faf7;
+  --color-table-head: #edf5f1;
+  --color-line: #dce5df;
+  --color-line-cover: #cdd8d2;
+  --color-video: #111;
+  --font-body: Arial, sans-serif;
+  --accent-rule: 3px solid var(--color-accent);
+}
+
+/* Halloween dark mode. Slidev adds .dark when colorSchema is dark. */
+html.dark {
+  color-scheme: dark;
+
+  --color-ink: #c8c3ba;
+  --color-accent: #fb6101bb;
+  --color-accent-soft: #fb6101bb;
+  --color-muted: #a8a198;
+  --color-faint: #8d877f;
+  --color-quiet: #a49e96;
+  --color-label: #978f88;
+  --color-canvas: #101010;
+  --color-paper: #161616;
+  --color-card: #1c1c1c;
+  --color-table-head: #262422;
+  --color-line: #343230;
+  --color-line-cover: #2c2a28;
+  --color-video: #0c0c0c;
+  --color-glow-bright: #fcab14bb;
+  --color-glow: #fb6101bb;
+  --color-glow-deep: #a52501bb;
+  --title-shade: linear-gradient(
+    180deg,
+    var(--color-glow-bright) 0%,
+    var(--color-glow) 46%,
+    var(--color-glow-deep) 100%
+  );
+  --bar-shade: linear-gradient(90deg, var(--color-glow-deep), var(--color-glow) 55%, var(--color-glow-bright));
+
+  --slidev-theme-primary: var(--color-accent);
+}
+
+html.dark .katex {
+  color: var(--color-ink);
+}
+
+html.dark .accent-card {
+  background: var(--color-card);
+  border: 1px solid #333333;
+  border-top: 2px solid var(--color-accent);
+  border-radius: 10px;
+}
+
+html.dark .section-progress__fill {
+  background: var(--bar-shade);
+}
+
+html.dark .is-complete .section-progress__fill {
+  background: var(--color-accent-soft);
+}
+
+/* Room for the section bar. Cover padding wins by specificity. */
+.slidev-layout {
+  padding-top: 92px !important;
+}
+
+/* Cover */
+.slidev-layout.flashsac-cover {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  padding: 0 !important;
+}
+
+.flashsac-cover .cover-content {
+  position: absolute;
+  inset: 0;
+  padding: 48px 60px;
+}
+
+/* Tweak the logo: top and width. It is centered on the slide, out of the text flow. */
+.slidev-layout {
+  --cover-mark-top: 365px;
+  --cover-mark-width: 250px;
+}
+
+.cover-mark {
+  position: absolute;
+  top: var(--cover-mark-top);
+  left: 50%;
+  transform: translateX(-50%);
+  width: var(--cover-mark-width);
+  height: auto;
+  z-index: 2;
+}
+
+.flashsac-cover h1.cover-title {
+  margin: 24px 0 12px;
+  font-size: 92px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.055em;
+  color: var(--color-accent);
+}
+
+html.dark .flashsac-cover h1.cover-title {
+  color: transparent;
+  background-image:
+    linear-gradient(
+      105deg,
+      transparent 34%,
+      color-mix(in srgb, var(--color-glow-bright) 20%, transparent) 44%,
+      var(--color-glow-bright) 50%,
+      color-mix(in srgb, var(--color-glow-bright) 20%, transparent) 56%,
+      transparent 66%
+    ),
+    var(--title-shade);
+  background-size: 240% 100%, 100% 100%;
+  background-repeat: no-repeat;
+  background-position: 130% 0, 0 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: cover-title-sweep 6.5s ease-in-out infinite;
+}
+
+@keyframes cover-title-sweep {
+  0% {
+    background-position: 130% 0, 0 0;
+  }
+
+  100% {
+    background-position: -30% 0, 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.dark .flashsac-cover h1.cover-title {
+    animation: none;
+    background-image: var(--title-shade);
+    background-size: 100% 100%;
+    background-position: 0 0;
+  }
+}
+
+.flashsac-cover .cover-subtitle {
+  font-size: 29px;
+  line-height: 1.3;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.flashsac-cover .cover-award {
+  margin-top: 22px;
+  padding-left: 14px;
+  border-left: var(--accent-rule);
+  color: var(--color-accent);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.flashsac-cover .cover-authors {
+  margin-top: 28px;
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--color-muted);
+}
+
+.flashsac-cover .cover-authors span {
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
+.flashsac-cover .cover-affiliations {
+  margin-top: 10px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--color-faint);
+}
+
+.flashsac-cover .cover-presenter {
+  position: absolute;
+  left: 60px;
+  right: 60px;
+  bottom: 28px;
+  padding-top: 14px;
+  border-top: 1px solid var(--color-line-cover);
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  font-size: 16px;
+  color: var(--color-quiet);
+}
+
+.flashsac-cover .cover-presenter strong {
+  color: var(--color-ink);
+  font-weight: 600;
+}
+
+/*
+  Content slides. :not() keeps this from restyling the cover and Slidev's
+  section layout. Nesting here compiles to the same selectors as before.
+*/
+.slidev-layout:not(.flashsac-cover):not(.section) {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: 23px;
+  line-height: 1.45;
+
+  & h1 {
+    color: var(--color-accent);
+    font-size: 34px;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+
+    padding-bottom: 12px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  & h2,
+  & h3 {
+    color: var(--color-ink);
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+
+  /* Remove the default faded subtitle effect */
+  & h1 + p {
+    opacity: 1;
+  }
+
+  & strong,
+  & li::marker {
+    color: var(--color-accent);
+  }
+
+  & li {
+    margin-block: 10px;
+  }
+
+  & table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 20px;
+  }
+
+  & th {
+    background: var(--color-table-head);
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+
+  & th,
+  & td {
+    padding: 10px 14px;
+    border: none;
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  & blockquote {
+    margin: 20px 0;
+    padding: 4px 0 4px 18px;
+    border-left: var(--accent-rule);
+    background: transparent;
+    color: var(--color-muted);
+    font-style: normal;
+    font-size: 22px;
+    line-height: 1.35;
+  }
+
+  & .katex-display {
+    margin-block: 24px;
+  }
+}
+
+.slidev-layout.exploration h3 {
+  margin-bottom: 4px;
+}
+
+.slidev-layout.exploration .katex-display {
+  margin-block: 8px 10px;
+}
+
+/*
+  Accent-top card. Shared by the fast-training facts and the conclusion.
+  Padding and type size come from the parent.
+*/
+.accent-card {
+  background: var(--color-card);
+  border-top: var(--accent-rule);
+}
+
+.accent-card strong,
+.accent-card span {
+  display: block;
+}
+
+.accent-card span {
+  color: var(--color-muted);
+}
+
+.slidev-layout.fast-training .fast-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.slidev-layout.fast-training .fast-grid > .accent-card {
+  padding: 14px 16px 16px;
+}
+
+.slidev-layout.fast-training .fast-grid > .accent-card strong {
+  margin-bottom: 6px;
+  font-size: 20px;
+  line-height: 1.25;
+}
+
+.slidev-layout.fast-training .fast-grid > .accent-card span {
+  font-size: 16px;
+  line-height: 1.35;
+}
+
+.takeaway-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.takeaway-grid > .accent-card {
+  padding: 24px 20px 28px;
+}
+
+.takeaway-grid > .accent-card strong {
+  margin-bottom: 8px;
+  font-size: 22px;
+  line-height: 1.25;
+}
+
+.takeaway-grid > .accent-card span {
+  font-size: 16px;
+  line-height: 1.375;
+}
+
+.pair-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 12px;
+}
+
+.pair-grid > .accent-card {
+  padding: 26px 22px 28px;
+}
+
+.pair-grid > .accent-card strong {
+  margin-bottom: 10px;
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+.pair-grid > .accent-card span {
+  font-size: 18px;
+  line-height: 1.4;
+}
+
+.slidev-layout p.source-links {
+  font-size: 18px;
+}
+
+p.source-links a {
+  color: var(--color-accent);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* Stable-training slide: wide architecture figure beside a short list */
+.slidev-layout.stable-training .stable-body {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 36px;
+  align-items: center;
+}
+
+.slidev-layout.stable-training .stable-body img {
+  width: 100%;
+  height: auto;
+}
+
+.slidev-layout.stable-training .stable-points > div {
+  padding: 16px 0 18px;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.slidev-layout.stable-training .stable-points strong {
+  display: block;
+  font-size: 26px;
+  line-height: 1.2;
+}
+
+.slidev-layout.stable-training .stable-points span {
+  display: block;
+  margin-top: 6px;
+  font-size: 20px;
+  line-height: 1.35;
+  color: var(--color-muted);
+}
+
+/* Figures centered on the slide */
+.preview-figure,
+.experiment-plot {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  height: auto;
+}
+
+.preview-figure {
+  top: 150px;
+  width: 80%;
+}
+
+.experiment-plot {
+  width: 90%;
+}
+
+.experiment-plot.at-325 { top: 325px; }
+.experiment-plot.at-470 { top: 470px; }
+
+/*
+  Two wide plots, each under a normal title. The headings keep the accent
+  rule; the plots share whatever height is left.
+*/
+.slidev-layout.cpu-vision .split-plots {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 16px;
+}
+
+.slidev-layout.cpu-vision .split-plots section {
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.slidev-layout.cpu-vision:not(.section) h1 {
+  flex: none;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+}
+
+.slidev-layout.cpu-vision .split-plots img {
+  display: block;
+  flex: 1 1 auto;
+  min-height: 0;
+  width: auto;
+  max-width: 100%;
+  height: 100%;
+  margin-inline: auto;
+  object-fit: contain;
+}
+
+.five-videos {
+  position: absolute;
+  left: 52%;
+  transform: translateX(-50%);
+  top: 150px;
+  width: 85%;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.five-videos figure,
+.quadrant-grid figure {
+  margin: 0;
+  min-width: 0;
+}
+
+.five-videos video,
+.video-trio video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  background: var(--color-video);
+}
+
+.five-videos figcaption,
+.quadrant-grid figcaption {
+  line-height: 1.2;
+  text-align: center;
+}
+
+.five-videos figcaption {
+  margin-top: 8px;
+  font-size: 15px;
+}
+
+.quadrant-grid figcaption {
+  font-size: 14px;
+}
+
+.quadrant-grid {
+  position: absolute;
+  top: 155px;
+  bottom: 25px;
+  left: 45px;
+  right: 45px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 18px 28px;
+}
+
+.quadrant-grid figure {
+  min-height: 0;
+}
+
+.video-trio {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  align-content: center;
+  min-height: 0;
+}
+
+.video-trio figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.image-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 0;
+}
+
+.image-cell img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.bottom-video {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.bottom-video video {
+  display: block;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  object-fit: contain;
+}
+
+.analysis-hero {
+  display: block;
+  width: 78%;
+  margin: 8px auto 0;
+}
+
+.slidev-layout.ablations:not(.section) {
+  padding: 8px 12px 8px 8px;
+}
+
+.ablation-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+}
+
+.ablation-stack > div {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  column-gap: 8px;
+  align-items: center;
+  box-sizing: border-box;
+  min-height: 0;
+  min-width: 0;
+  overflow: hidden;
+  flex: none;
+}
+
+.ablation-stack p {
+  margin: 0;
+  justify-self: center;
+  color: var(--color-accent);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+.ablation-stack img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+}
